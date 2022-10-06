@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   res.send("http post request sent to the webhook url.");
-
+  console.log(req.body);
   const dataBody = JSON.parse(req.body);
 
   console.dir(req.body, 3);
