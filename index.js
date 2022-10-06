@@ -36,7 +36,8 @@ app.post("/webhook", (req, res) => {
 
     const headers = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      // Authorization: `Bearer ${TOKEN}`,
+      Authorization: "Bearer " + TOKEN,
     };
 
     const webhookOptions = {
