@@ -22,7 +22,7 @@ app.post("/webhook", (req, res) => {
   if (req.body.events[0].type === "message") {
     const dataString = JSON.stringify({
       replyToken: req.body.events[0].replyToken,
-      message: [
+      messages: [
         {
           type: "text",
           text: "Hello user",
