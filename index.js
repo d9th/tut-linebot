@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_ACCESS_TOKEN;
 const CHANNEL_SECRET = process.env.CHANNEL_SECRET;
 
-// app.use(express.json());
+app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
@@ -20,8 +20,8 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   res.send("http post request sent to the webhook url.");
-  console.log(req);
-  const dataBody = JSON.parse(req.body);
+  console.log(req.body);
+  // const dataBody = JSON.parse(req.body);
 
   console.dir(req.body, 3);
   console.dir(req.body.events);
@@ -35,14 +35,14 @@ app.post("/webhook", (req, res) => {
 
   if (
     req.get("x-line-signature") === signature &&
-    dataBody.events[0].type === "message"
+    req.body.events[0].type === "message"
   ) {
     const dataString = JSON.stringify({
-      replyToken: dataBody.events[0].replyToken,
+      replyToken: req.body.events[0].replyToken,
       messages: [
         {
           type: "text",
-          text: `You said ${dataBody.events[0].message.text}`,
+          text: `You said ${req.body.events[0].message.text}`,
         },
       ],
     });
