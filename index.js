@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   res.send("http post request sent to the webhook url.");
-  console.dir(req.body);
+  console.dir(req.body, 3);
   // TODO
   const signature = crypto
     .createHmac("SHA256", CHANNEL_SECRET)
