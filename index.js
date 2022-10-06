@@ -25,21 +25,17 @@ app.post("/webhook", (req, res) => {
     .createHmac("SHA256", CHANNEL_SECRET)
     .update(JSON.stringify(req.body))
     .digest("base64");
-  // console.warn(`signature : ${signature}`);
-  // console.warn(`x-line-signature : ${req.get("x-line-signature")}`);
 
   if (
     req.get("x-line-signature") === signature &&
     req.body.events[0].type === "message"
   ) {
-    console.log(req.body);
-
     const dataString = JSON.stringify({
       replyToken: req.body.events[0].replyToken,
       messages: [
         {
           type: "text",
-          text: "Hello user",
+          text: `You said ${req.body.events[0].message.text}`,
         },
         {
           type: "text",
