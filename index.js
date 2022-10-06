@@ -19,22 +19,19 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  // const body = "..."; // Request body string
-  // const signature = crypto
-  //   .createHmac("SHA256", channelSecret)
-  //   .update(body)
-  //   .digest("base64");
-  // // Compare x-line-signature request header and the signature
   res.send("http post request sent to the webhook url.");
 
   const signature = crypto
     .createHmac("SHA256", CHANNEL_SECRET)
     .update(JSON.stringify(req.body))
     .digest("base64");
-  console.warn(`signature : ${signature}`);
-  console.warn(`x-line-signature : ${req.get("x-line-signature")}`);
+  // console.warn(`signature : ${signature}`);
+  // console.warn(`x-line-signature : ${req.get("x-line-signature")}`);
 
-  if (req.body.events[0].type === "message") {
+  if (
+    req.get("x-line-signature") === signature &&
+    req.body.events[0].type === "message"
+  ) {
     console.log(req.body);
 
     const dataString = JSON.stringify({
@@ -46,7 +43,7 @@ app.post("/webhook", (req, res) => {
         },
         {
           type: "text",
-          text: `${req.get("x-line-signature")}`,
+          text: "signature was checked.",
         },
       ],
     });
