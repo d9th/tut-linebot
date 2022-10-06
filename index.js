@@ -42,7 +42,7 @@ app.post("/webhook", (req, res) => {
         },
         {
           type: "text",
-          text: `request method is ${req.method}`,
+          text: `request method is ${req.body.toString()}`,
         },
       ],
     });
