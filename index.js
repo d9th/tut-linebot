@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/webhook", (req, res) => {
+app.post("/webhook", function (req, res) {
   res.send("http post request sent to the webhook url.");
   // DEBUG
   console.warn(req.body.events);
