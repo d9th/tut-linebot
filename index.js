@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_ACCESS_TOKEN;
 const CHANNEL_SECRET = process.env.CHANNEL_SECRET;
 
-app.use(express.json());
+// app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
@@ -20,26 +20,29 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   res.send("http post request sent to the webhook url.");
+
+  const dataBody = JSON.parse(req.body);
+
   console.dir(req.body, 3);
   console.dir(req.body.events);
   // TODO
   const signature = crypto
     .createHmac("SHA256", CHANNEL_SECRET)
-    .update(JSON.stringify(req.body))
+    .update(req.body)
     .digest("base64");
 
   console.log(signature === req.get("x-line-signature"));
 
   if (
     req.get("x-line-signature") === signature &&
-    req.body.events[0].type === "message"
+    dataBody.events[0].type === "message"
   ) {
     const dataString = JSON.stringify({
-      replyToken: req.body.events[0].replyToken,
+      replyToken: dataBody.events[0].replyToken,
       messages: [
         {
           type: "text",
-          text: `You said ${req.body.events[0].message.text}`,
+          text: `You said ${dataBody.events[0].message.text}`,
         },
       ],
     });
