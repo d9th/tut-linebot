@@ -17,6 +17,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
+  // const crypto = require("crypto");
+  // const channelSecret = "..."; // Channel secret string
+  // const body = "..."; // Request body string
+  // const signature = crypto
+  //   .createHmac("SHA256", channelSecret)
+  //   .update(body)
+  //   .digest("base64");
+  // // Compare x-line-signature request header and the signature
+
   res.send("http post request sent to the webhook url.");
 
   if (req.body.events[0].type === "message") {
@@ -29,7 +38,11 @@ app.post("/webhook", (req, res) => {
         },
         {
           type: "text",
-          text: "May I help you ?",
+          text: `${req.get("x-line-signature")}`,
+        },
+        {
+          type: "text",
+          text: `request method is ${req.method}`,
         },
       ],
     });
