@@ -23,9 +23,11 @@ const handleEvent = event => {
     return Promise.resolve(null);
   }
 
+  const textMessage = event.message.text;
+
   const echo = {
     type: "text",
-    text: event.message.text,
+    text: textMessage.toUpperCase(),
   };
 
   return client.replyMessage(event.replyToken, echo);
