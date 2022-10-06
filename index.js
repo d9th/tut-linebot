@@ -29,6 +29,8 @@ app.post("/webhook", (req, res) => {
   res.send("http post request sent to the webhook url.");
 
   if (req.body.events[0].type === "message") {
+    console.log(req.body);
+
     const dataString = JSON.stringify({
       replyToken: req.body.events[0].replyToken,
       messages: [
@@ -39,10 +41,6 @@ app.post("/webhook", (req, res) => {
         {
           type: "text",
           text: `${req.get("x-line-signature")}`,
-        },
-        {
-          type: "text",
-          text: req.body,
         },
       ],
     });
