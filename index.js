@@ -20,7 +20,8 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   res.send("http post request sent to the webhook url.");
-
+  console.dir(req.body);
+  // TODO
   const signature = crypto
     .createHmac("SHA256", CHANNEL_SECRET)
     .update(JSON.stringify(req.body))
@@ -37,17 +38,12 @@ app.post("/webhook", (req, res) => {
           type: "text",
           text: `You said ${req.body.events[0].message.text}`,
         },
-        {
-          type: "text",
-          text: "signature was checked.",
-        },
       ],
     });
 
     const headers = {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${TOKEN}`,
-      Authorization: "Bearer " + TOKEN,
+      Authorization: `Bearer ${TOKEN}`,
     };
 
     const webhookOptions = {
@@ -65,7 +61,7 @@ app.post("/webhook", (req, res) => {
     });
 
     request.on("error", err => {
-      console.error(err);
+      console.error(err.message);
     });
 
     request.write(dataString);
