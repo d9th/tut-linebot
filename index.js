@@ -28,6 +28,8 @@ app.post("/webhook", (req, res) => {
     .update(JSON.stringify(req.body))
     .digest("base64");
 
+  console.log(signature === req.get("x-line-signature"));
+
   if (
     req.get("x-line-signature") === signature &&
     req.body.events[0].type === "message"
