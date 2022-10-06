@@ -28,7 +28,7 @@ app.post("/webhook", (req, res) => {
   // TODO
   const signature = crypto
     .createHmac("SHA256", CHANNEL_SECRET)
-    .update(req.body)
+    .update(JSON.stringify(req.body))
     .digest("base64");
 
   console.log(signature === req.get("x-line-signature"));
