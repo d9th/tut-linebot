@@ -1,3 +1,3 @@
 # tut-linebot
 
-tutorial for line bot 
+Tutorial for line bot 
